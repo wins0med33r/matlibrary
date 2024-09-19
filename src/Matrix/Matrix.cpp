@@ -1,11 +1,9 @@
-﻿#include "Matrix.h"
+﻿#include "Matrix/Matrix.h"
 #include <type_traits>
+#include <stdexcept>
 
 namespace mp
 {
-	template<typename T>
-	Matrix<T>::Matrix(size_t m, size_t n) : _row(m), _col(n), _data(new T[_row * _col]()) {}
-
 	template<typename T>
 	void Matrix<T>::resize()
 	{
@@ -21,13 +19,6 @@ namespace mp
 		}
 
 		delete[] temp;
-	}
-
-	template<typename T>
-	Matrix<T>::~Matrix()
-	{
-		delete[] _data;
-		_data = nullptr;
 	}
 
 	template<typename T>
@@ -126,7 +117,7 @@ namespace mp
 			{
 				for (int k = 0; k < other._row; k++)
 				{
-					new_data[i * row + j] += _data[i * row + k] * other[k * row + j];
+					new_data[i * _row + j] += _data[i * _row + k] * other[k * _row + j];
 				}
 			}
 		}
@@ -149,5 +140,4 @@ namespace mp
 
 		return *this;
 	}
-
 }

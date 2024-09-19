@@ -43,4 +43,14 @@ namespace mp
 
 		Matrix<T>& operator*=(T scalar);
 	};
+
+	template<typename T>
+	Matrix<T>::Matrix(size_t m, size_t n) : _row(m), _col(n), _data(new T[m * n]()) {}
+
+	template<typename T>
+	Matrix<T>::~Matrix()
+	{
+		delete[] _data;
+		_data = nullptr;
+	}
 }

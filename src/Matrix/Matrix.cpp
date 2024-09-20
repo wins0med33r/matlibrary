@@ -140,4 +140,10 @@ namespace mp
 
 		return *this;
 	}
+
+	template<typename T>
+	T* Matrix<T>::operator[](size_t row)
+	{
+		return &_data[row * _col];
+	}
 }

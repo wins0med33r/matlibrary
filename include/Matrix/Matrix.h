@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Append.h"
 
 namespace mp
 {
@@ -8,8 +9,7 @@ namespace mp
 	private:
 
 		T* _data = nullptr;
-		size_t _row = 0;
-		size_t _col = 0;
+		size_t _row = 0, _col = 0;
 
 		void resize();
 
@@ -42,6 +42,12 @@ namespace mp
 		Matrix<T>& operator*=(Matrix<T>& other);
 
 		Matrix<T>& operator*=(T scalar);
+
+		T* operator[](size_t row);
+
+		// Append Method
+		template<typename T>
+		friend void append<T>(Matrix<T>& mat, T input);
 	};
 
 	template<typename T>

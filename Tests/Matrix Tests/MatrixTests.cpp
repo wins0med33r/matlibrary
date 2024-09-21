@@ -1,13 +1,15 @@
 #define BOOST_TEST_MODULE MatrixTests
 
 #include <boost/test/included/unit_test.hpp>
-#include "Matrix/Matrix.h"
+#include <Matrix.hpp> 
+#include <Matrix.cpp> 
 
-BOOST_AUTO_TEST_CASE(simple_test)
+BOOST_AUTO_TEST_CASE(ScalarMultiplication_Operator_Test)
 {
 	mp::Matrix<int> test(2, 2);
 
-	std::cout << "HELLO" << std::endl;
+	test[0][1] = 1;
+	test *= 10;
 
-	BOOST_ASSERT(true);
+	BOOST_ASSERT(test[0][1] == 10);
 }

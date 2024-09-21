@@ -5,7 +5,14 @@ project ("matlibrary")
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-include_directories(include)
+include_directories(${CMAKE_SOURCE_DIR}/include/)
 
-add_subdirectory(src)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+message(${matlibrary_SOURCE_DIR})
+add_library(matlibrary STATIC
+	${matlibrary_SOURCE_DIR}/include/Matrix.cpp
+	${matlibrary_SOURCE_DIR}/include/Matrix.hpp
+)
+
 add_subdirectory(Tests)

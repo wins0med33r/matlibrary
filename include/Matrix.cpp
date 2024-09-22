@@ -59,7 +59,7 @@ namespace mp
 	}
 
 	template<typename T>
-	Matrix<T>& Matrix<T>::operator=(const Matrix<T>&& other) noexcept
+	Matrix<T>& Matrix<T>::operator=(Matrix<T>&& other) noexcept
 	{
 		if (*this == other)
 		{
@@ -127,7 +127,7 @@ namespace mp
 			{
 				for (int k = 0; k < other._row; k++)
 				{
-					new_data[i * _row + j] += _data[i * _row + k] * other[k * _row + j];
+					new_data[i * _row + j] += _data[i * _row + k] * other._data[k * _row + j];
 				}
 			}
 		}

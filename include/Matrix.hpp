@@ -33,7 +33,7 @@ namespace mp
 		Matrix<T>(Matrix<T>&& other) noexcept;
 
 		// Move Assignment
-		Matrix<T>& operator=(const Matrix<T>&& other) noexcept;
+		Matrix<T>& operator=(Matrix<T>&& other) noexcept;
 
 		/* Overloaded Operators */
 

@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <type_traits>
+#include <vector>
 
 namespace mp
 {
@@ -19,6 +20,7 @@ namespace mp
 
 		// Constructors
 		Matrix(size_t m, size_t n);
+		Matrix(size_t m, size_t n, std::vector<T> data);
 
 		// Destructor
 		~Matrix();
@@ -36,6 +38,7 @@ namespace mp
 		Matrix<T>& operator=(Matrix<T>&& other) noexcept;
 
 		/* Overloaded Operators */
+		Matrix<T>& operator=(const std::vector<T>& vec);
 
 		Matrix<T>& operator+=(const Matrix<T>& other);
 

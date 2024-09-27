@@ -46,7 +46,8 @@ namespace mp
 
 		Matrix<T>& operator*=(const Matrix<T>& other);
 
-		Matrix<T>& operator*=(T scalar);
+		template<typename U = T, std::enable_if_t<std::is_arithmetic_v<U>, bool> = true>
+		Matrix<T>& operator*=(U scalar);
 
 		T* operator[](size_t row);
 

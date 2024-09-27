@@ -163,12 +163,11 @@ namespace mp
 
 		return *this;
 	}
-
+	
 	template<typename T>
-	Matrix<T>& Matrix<T>::operator*=(T scalar)
+	template<typename U, std::enable_if_t<std::is_arithmetic_v<U>, bool>>
+	Matrix<T>& Matrix<T>::operator*=(U scalar)
 	{
-		static_assert(std::is_arithmetic<T>::value, "Type must be arithmetic");
-
 		for (int i = 0; i < _row * _col; i++)
 		{
 			_data[i] *= scalar;

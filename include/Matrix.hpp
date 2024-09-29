@@ -1,7 +1,6 @@
 ﻿#ifndef MATRIX_H
 #define MATRIX_H
 
-#include <cstddef>
 #include <stdexcept>
 #include <algorithm>
 #include <type_traits>
@@ -40,13 +39,17 @@ namespace mp
 		/* Overloaded Operators */
 		Matrix<T>& operator=(const std::vector<T>& vec);
 
+		template<typename U = T, std::enable_if_t<std::is_arithmetic_v<U> || std::is_same_v<U, std::string>, bool> = true>
 		Matrix<T>& operator+=(const Matrix<T>& other);
 
+		template<typename U = T, std::enable_if_t<std::is_arithmetic_v<U>, bool> = true>
 		Matrix<T>& operator-=(const Matrix<T>& other);
 
+		template<typename U = T, std::enable_if_t<std::is_arithmetic_v<U>, bool> = true>
 		Matrix<T>& operator*=(const Matrix<T>& other);
 
-		Matrix<T>& operator*=(T scalar);
+		template<typename U = T, std::enable_if_t<std::is_arithmetic_v<U>, bool> = true>
+		Matrix<T>& operator*=(U scalar);
 
 		T* operator[](size_t row);
 

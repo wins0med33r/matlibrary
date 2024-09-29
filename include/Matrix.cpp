@@ -27,11 +27,18 @@ namespace mp
 	template<typename T>
 	void Matrix<T>::resize()
 	{
-		T* temp = _data;
+		T* temp = new T[_row * _col]();
+
+		for (int i = 0; i < _row * _col; i++)
+		{
+			temp[i] = _data[i];
+		}
+
 		delete[] _data;
 
-		size_t additional_size = _col;
-		_data = new T[_row * _col + additional_size]();
+		_row++;
+		_data = new T[_row * _col]();
+
 
 		for (int i = 0; i < _row * _col; i++)
 		{
@@ -63,7 +70,7 @@ namespace mp
 	template<typename T>
 	Matrix<T>& Matrix<T>::operator=(const Matrix<T>& other)
 	{
-		if (*this == other)
+		if (this == &other)
 		{
 			return *this;
 		}
@@ -73,38 +80,51 @@ namespace mp
 		_row = other._row;
 		_col = other._col;
 
-		_data = other._data;
+		_data = new T[_row * _col];
+
+		// Copy the data from the 'other' matrix
+		for (size_t i = 0; i < _row * _col; ++i)
+		{
+			_data[i] = other._data[i];
+		}
 
 		return *this;
 	}
 
 	template<typename T>
-	Matrix<T>::Matrix(Matrix<T>&& other) noexcept : _data(other._data)
+	Matrix<T>::Matrix(Matrix<T>&& other) noexcept : _row(other._row), _col(other._col), _data(other._data)
 	{
 		other._data = nullptr;
+		other._row = 0;
+		other._col = 0;
 	}
 
 	template<typename T>
 	Matrix<T>& Matrix<T>::operator=(Matrix<T>&& other) noexcept
 	{
-		if (*this == other)
+		if(this == &other)
 		{
 			return *this;
 		}
-
+		
 		delete[] _data;
+		
 		_data = other._data;
+		_row = other._row;
+		_col = other._col;
+
 		other._data = nullptr;
+		other._row = 0;
+		other._col = 0;
 
 		return *this;
 	}
-
+	
 	template<typename T>
+	template<typename U, std::enable_if_t<std::is_arithmetic_v<U> || std::is_same_v<U, std::string>, bool>>
 	Matrix<T>& Matrix<T>::operator+=(const Matrix<T>& other)
 	{
-		static_assert(std::is_arithmetic<T>::value || std::is_same<T, std::string>::value, "Type is not compatible for addition.");
-
-		if (_row != other._row && _col != other._col)
+		if (_row != other._row || _col != other._col)
 		{
 			throw std::length_error("Matrices must be of the same dimension for addition.");
 		}
@@ -118,11 +138,10 @@ namespace mp
 	}
 
 	template<typename T>
+	template<typename U, std::enable_if_t<std::is_arithmetic_v<U>, bool>>
 	Matrix<T>& Matrix<T>::operator-=(const Matrix<T>& other)
 	{
-		static_assert(std::is_arithmetic<T>::value, "Type must be arithmetic");
-
-		if (_row != other._row && _col != other._col)
+		if (_row != other._row || _col != other._col)
 		{
 			throw std::length_error("Matrices must be of the same dimension for substraction.");
 		}
@@ -136,10 +155,9 @@ namespace mp
 	}
 
 	template<typename T>
+	template<typename U, std::enable_if_t<std::is_arithmetic_v<U>, bool>>
 	Matrix<T>& Matrix<T>::operator*=(const Matrix<T>& other)
 	{
-		static_assert(std::is_arithmetic<T>::value, "Type must be arithmetic");
-
 		if (_col != other._row)
 		{
 			throw std::length_error("Invalid dimensions for multiplication.");
@@ -163,12 +181,11 @@ namespace mp
 
 		return *this;
 	}
-
+	
 	template<typename T>
-	Matrix<T>& Matrix<T>::operator*=(T scalar)
+	template<typename U, std::enable_if_t<std::is_arithmetic_v<U>, bool>>
+	Matrix<T>& Matrix<T>::operator*=(U scalar)
 	{
-		static_assert(std::is_arithmetic<T>::value, "Type must be arithmetic");
-
 		for (int i = 0; i < _row * _col; i++)
 		{
 			_data[i] *= scalar;
